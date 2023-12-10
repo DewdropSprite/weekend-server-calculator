@@ -5,6 +5,8 @@ let PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(express.static('server/public'));
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
 
 // Global variable that will contain all of the
 // calculation objects:
@@ -15,6 +17,7 @@ let calculations = []
 
 // GET /calculations
 app.get('/calculations', (req, res) => {
+  console.log("in app.get on server", calculations)
   res.send(calculations)
 })
 
@@ -23,6 +26,7 @@ app.post('/calculations', (req, res) => {
   const { numOne, numTwo, operator } = req.body
   console.log("req body", req.body);
   let calculations;
+  calculations.push(req.body)
 
   switch (operator) {
     case '+':
