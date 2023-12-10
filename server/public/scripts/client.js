@@ -15,10 +15,10 @@ function handleGetCalculations() {
     })
         .then((response) => {
             console.log("Success", response.data);
-            const resultHistory = document.getElementByID('resultHistory')
-            resultHistory.innerHTML = ' '
+            let resultHistory = document.getElementByID('resultHistory')
+            resultHistory.innerHTML = '';
             for (const calculationItem of response.data) {
-                resultHistory.innerHTML += `<></>`
+                resultHistory.innerHTML += `<li>${calculationItem.numOneInput} ${calculationItem.operator} ${calculationItem.numTwoInput} = ${resultHistory} </>`
             }
         }
         ).catch((error) => {
@@ -42,15 +42,72 @@ function handleGetCalculations() {
 //{ numOne: 25, numTwo: 10, operator: '+' }
 //There should be a 'C' button that will clear the inputs.
 
-let numOneInput = document.getElementById("numOneInput");
-let numTwoInput = document.getElementById("numTwoInput");
-let operatorInput = document.getElementByID("operatorInput");
-const buttons = document.querySelectorAll("button");
+let numOne = " ";
+let numTwo = " ";
+let operator = " ";
+
+function appendValue(value) {
+    if (operator === '') {
+        numOne += value;
+        document.getElementById('numOneInput').value = numOne;
+    } else {
+        numTwo += value;
+        document.getElementById('numTwoInput').value = numTwo
+    }
+}
+
+function setOperator(op) {
+    operator = op;
+}
+
+function clearInputs() {
+    numOne = '';
+    numTwo = '';
+    operator = '';
+    document.getElementById('numOneInput').value = '';
+    document.getElementById('numTwoInput').value = '';
+}
+
+function calculateHandler(event) {
+    event.preventdefault;
+
+    if (numOne !== '' && numTwo !== '' && operator !== '') {
+        const calculationData = {
+            numOne: parseFloat(numOne),
+            numTwo: parseFloat(numTwo),
+            operator: operator
+        };
+
+        axios({
+            method: 'POST',
+            url: '/calculations',
+            data: {
+                numOne,
+                numTwo,
+                operator,
+            },
+            body: JSON.stringify(calculationData),
+        })
+            .then(response => response.json())
+            .then(data => {
+                alert('Result: ' + data.result);
+                clearInputs();
+            })
+            .catch(error => {
+                console.log('Error:', error);
+
+            })
+    }
+}
+//let operatorInput = document.getElementByID("operatorInput");
+//const buttons = document.querySelectorAll("button");
 
 // loop through each button and add a click event listener
-buttons.forEach(function(button) {
-  button.addEventListener("click", function() {
-    // do something when the button is clicked
-    console.log("You clicked a button");
-  });
-});
+//buttons.forEach(function(button) {
+// button.addEventListener("click", function() {
+// do something when the button is clicked
+//  console.log("You clicked a button");
+// });
+//});
+
+onReady();

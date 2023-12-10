@@ -11,20 +11,20 @@
 
     <form data-testid="calculator">
       <input id= firstNumberInput type="number" name = "firstNumberInput" placeholder = "First Number" />
-      <button>+</button>
-      <button>-</button>
-      <button>*</button>
-      <button>/</button>
+      <button onclick = "setOperator('+')">+</button>
+      <button onclick = "setOperator('-')">-</button>
+      <button onclick = "setOperator('*')">*</button>
+      <button onclick = "setOperator('/')">/</button>
       <input id= "secondNumberInput" type = "number" name = "secondNumberInput" placeholder="Second Number"/>
-      <button>=</button>
-      <button>C</button>
+      <button onclick = "calculateHandler(event)">=</button>
+      <button onclick = "clearInputs()">C</button>
     </form>
 
-    <section data-testid="recentResult">
+    <section id = "recentResult" data-testid="recentResult">
       <!-- The most recent calculation result goes here. -->
     </section>
 
-    <section data-testid="resultHistory">
+    <section id = "resultHistory" data-testid="resultHistory">
       <!-- The list of calculation results goes here. -->
     </section>
   </body>
