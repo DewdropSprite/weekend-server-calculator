@@ -23,12 +23,12 @@ app.get('/calculations', (req, res) => {
 
 // POST /calculations
 app.post('/calculations', (req, res) => {
-  const { numOne, numTwo, operator } = req.body
   console.log("req body", req.body);
-  let calculations;
+  calculationsResult(req.body);
   calculations.push(req.body)
 
-  switch (operator) {
+  function(calculationsResult){
+    switch (operator) {
     case '+':
       calculations = numOne + numTwo
       break;
@@ -46,7 +46,7 @@ app.post('/calculations', (req, res) => {
   }
 
       res.send(`Calculations: ${calculations}`);
-});
+}});
 
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
