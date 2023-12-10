@@ -1,6 +1,7 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-let PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(express.static('server/public'));
@@ -13,8 +14,37 @@ let calculations = []
 // Here's a wonderful place to make some routes:
 
 // GET /calculations
+// todo add res parameter after calculations
+app.get('/', (req, res) => {
+  res.send({ calculations, })
+})
 
+// todo come back to this
 // POST /calculations
+app.post('/calculations', req, res) => {
+  const { numOne, numTwo, operator } = req.body
+  console.log(req.body);
+  let calculations;
+
+  switch (operator) {
+    case '+':
+      calculations = numOne + numTwo
+      break;
+    case '-':
+      calculations = numOne - numTwo
+      break;
+    case '*':
+      calculations = numOne * numTwo
+      break;
+    case '/':
+      calculations = numOne / numTwo;
+      break;
+    default:
+      calculations = 'Invalid Operator';
+
+      res.send(`Calculations: ${calculations}`);
+  }
+}
 
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
