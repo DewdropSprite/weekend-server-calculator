@@ -27,7 +27,7 @@ app.post('/calculations', (req, res) => {
   calculationsResult(req.body);
   calculations.push(req.body)
 
-  function(calculationsResult){
+  function calculationsResult(){
     switch (operator) {
     case '+':
       calculations = numOne + numTwo

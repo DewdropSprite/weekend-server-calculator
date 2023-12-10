@@ -1,20 +1,39 @@
 console.log('client.js is sourced!');
 
-let myResults;
-let currentMath = {}
+myResults();
+let currenCalculations = {}
 
-function setOperator(event) {
-    event.preventdefault();
-    let myOperator = event.target.textContent
-    currentMath.operator = myOperator
-    console.log(results)
+
+function myResults() {
+    axios({
+        method: 'GET',
+        url: "/calculations"
+    })
+        .then((response) => {
+            console.log('inside GET response', response.data)
+
+            let responseData = response.data;
+            //resultHistory
+            let newestResult = responseData[responseData.length - 1];
+            let resultHistory = document.getElementById("resultHistory");
+            resultHistory.innerHTML = ''
+            for (let items of responseData) {
+                resultHistory.innerHTML += `<div> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</div>`
+            }
+            //recentResult
+            let recentResult = document.getElementById('recentResult');
+            recentResult.innerHTML = `<h2> Result: ${newestResult.result}</h2>`
+        })
+        .catch((error) => {
+    console.log("server error", error);
+})
+
 }
 
-//Inside the <section data-testid="resultHistory"> element, display a list of all previous calculations on the page when it loads (using a GET '/calculations' request).
-//Update this list when a new calculation is made.
 
 
 // event for when = button is clicked
+// values are stored in the currentCalculations{} object
 function handleGetCalculations(event) {
     event.preventdefault();
 
@@ -29,90 +48,23 @@ function handleGetCalculations(event) {
         numTwo += value;
         document.getElementById('numTwoInput').value = numTwo
     }
+
+
     axios({
         method: 'POST',
         url: '/calculations',
-        data: {
-            num: currentMath
-        },
-        data: currentMath
+        data: currenCalculations
     })
         .then((response) => {
-            console.log("Success", response.data);
-            myMath()
-            let resultHistory = document.getElementByID('resultHistory')
-            resultHistory.innerHTML = '';
-            for (const calculationItem of response.data) {
-                resultHistory.innerHTML += `<li>${calculationItem.numOneInput} ${calculationItem.operator} ${calculationItem.numTwoInput} = ${resultHistory} </>`
-            }
-        }
-        ).catch((error) => {
+            console.log("Success");
+            myResults()
+        })  
+        .catch((error) => {
             console.log("server error:", error)
         })
+        document.getElementById("calculator").reset()
 }
 
-
-//Inside the <section data-testid="recentResult"> element, display the most recent calculation result.
-//Update this when a new calculation is made.
-
-function myMath() {
-    axios({
-        method: 'GET',
-        url: "/calculations"
-    })
-        .then((response) => {
-            console.log('inside displayResults GET', response.data)
-            let responseData = response.data;
-
-            let currentMath = responseData[responseData.length - 1].numbers
-            let resultHistory = document.getElementById("resultHistory")
-            resultHistory.innerHTML += `<div> ${currentMath.numOne} ${currentMath.operator} ${currentMath.numTwo} = ${currentMath.result}</div>`
-            resultHistory.innerHTML = ''
-            for (let items of responseData) {
-                resultHistory.innerHTML += `<div>${items.numOne} ${items.operator} ${items.numtwo} = ${items.result}</div>`
-            }
-
-            let myResult = document.getElementById('result')
-            result.innerHTML = myResult.result
-            let myRecentResult = document.getElementById('recentResult')
-            myRecentResult.innerHTML = `<h2> Result: ${myRecentResult.result}</h2>`
-
-        })
-        .catch((error) => {
-            console.log("server error", error);
-        })
-}
-
-
-
-//Inside <form data-testid="calculator">:
-//Create a user interface where the user can input two values and select a mathematical operator.
-
-
-//Each mathematical operator is represented by a button:
-//<button onclick = "setOperator(event)">+</button>
-//<button onclick = "setOperator(event)">-</button>
-//<button onclick = "setOperator(event)">*</button>
-//<button onclick = "setOperator(event)">/</button>
-
-//When the = button is clicked, capture the input values and operator, then send this data to POST '/calculations'. You'll need to format it like so:
-//{ numOne: 25, numTwo: 10, operator: '+' }
-//<button onclick = "calculateHandler(event)">=</button>
-
-//There should be a 'C' button that will clear the inputs.
-//<button onclick = "clearInputs(event)">C</button>
-
-
-
-
-function clearInputs(event) {
-    event.preventdefault();
-    numOne = '';
-    numTwo = '';
-    operator = '';
-    document.getElementById('numOneInput').value = '';
-    document.getElementById('numTwoInput').value = '';
-}
 
 //let operatorInput = document.getElementByID("operatorInput");
 //const buttons = document.querySelectorAll("button");
@@ -124,3 +76,27 @@ function clearInputs(event) {
 //  console.log("You clicked a button");
 // });
 //});
+
+
+function setOperator(event) {
+    event.preventdefault();
+    let myOperator = event.target.textContent
+    currenCalculations.operator = myOperator
+    console.log(currenCalculations)
+}
+
+
+//When the = button is clicked, capture the input values and operator, then send this data to POST '/calculations'. You'll need to format it like so:
+//{ numOne: 25, numTwo: 10, operator: '+' }
+//<button onclick = "calculateHandler(event)">=</button>
+
+//There should be a 'C' button that will clear the inputs.
+//<button onclick = "clearInputs(event)">C</button>
+function clearInputs(event) {
+    event.preventdefault();
+    numOne = '';
+    numTwo = '';
+    operator = '';
+    document.getElementById('numOneInput').value = '';
+    document.getElementById('numTwoInput').value = '';
+}
