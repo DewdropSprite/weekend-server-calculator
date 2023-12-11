@@ -26,26 +26,29 @@ app.post('/calculations', (req, res) => {
   console.log("req body", req.body);
   calculationsResult(req.body);
   calculations.push(req.body)
+  res.sendStatus(201);
 
-  function calculationsResult(){
-    switch (operator) {
+  function calculationsResult(incObject){
+    console.log(incObject)
+    let number1 = JSON.parse(incObject.numOne)
+    let number2 = JSON.parse(incObject.numTwo)
+    
+    switch (myOperator) {
     case '+':
-      calculations = numOne + numTwo
+      result = number1 + number2
       break;
     case '-':
-      calculations = numOne - numTwo
+      calculations = number1 - number2
       break;
     case '*':
-      calculations = numOne * numTwo
+      calculations = number1 * number2
       break;
     case '/':
-      calculations = numOne / numTwo;
+      calculations = number1 / number2;
       break;
     default:
       calculations = 'Invalid Operator';
   }
-
-      res.send(`Calculations: ${calculations}`);
 }});
 
 
