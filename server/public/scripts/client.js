@@ -36,19 +36,11 @@ function myResults() {
 // values are stored in the currentCalculations{} object
 function handleGetCalculations(event) {
     event.preventdefault();
-
-    let numOne = " ";
-    let numTwo = " ";
-    let operator = " ";
-
-    if (operator === '') {
-        numOne += value;
-        document.getElementById('numOneInput').value = numOne;
-    } else {
-        numTwo += value;
-        document.getElementById('numTwoInput').value = numTwo
-    }
-
+    let num1 = document.getElementById(firstNumberInput).value
+    let num2 = document.getElementById(secondNumberInput).value
+    currentCalculations.numOne = num1
+    currentCalculations.numTwo = num2
+    console.log("inside handleGetCalculations(event)", currentCalculations)
 
     axios({
         method: 'POST',
@@ -63,19 +55,9 @@ function handleGetCalculations(event) {
             console.log("server error:", error)
         })
         document.getElementById("calculator").reset()
+
+
 }
-
-
-//let operatorInput = document.getElementByID("operatorInput");
-//const buttons = document.querySelectorAll("button");
-
-// loop through each button and add a click event listener
-//buttons.forEach(function(button) {
-// button.addEventListener("click", function() {
-// do something when the button is clicked
-//  console.log("You clicked a button");
-// });
-//});
 
 
 function setOperator(event) {
@@ -85,10 +67,6 @@ function setOperator(event) {
     console.log(currenCalculations)
 }
 
-
-//When the = button is clicked, capture the input values and operator, then send this data to POST '/calculations'. You'll need to format it like so:
-//{ numOne: 25, numTwo: 10, operator: '+' }
-//<button onclick = "calculateHandler(event)">=</button>
 
 //There should be a 'C' button that will clear the inputs.
 //<button onclick = "clearInputs(event)">C</button>
