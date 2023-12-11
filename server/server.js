@@ -23,28 +23,28 @@ app.get('/calculations', (req, res) => {
 
 // POST /calculations
 app.post('/calculations', (req, res) => {
-  //console.log("req body", req.body);
+  console.log("req body", req.body);
   calculationsResult(req.body);
-  calculations.push(req.body)
+  calculations.push(req.body);
   res.sendStatus(201);
 
-  function calculationsResult(incObject){
-    console.log(incObject)
-    let number1 = JSON.parse(incObject.numOne)
-    let number2 = JSON.parse(incObject.numTwo)
+  function calculationsResult(incomingInput){
+    console.log(incomingInput)
+    let number1 = JSON.parse(incomingInput.numOne)
+    let number2 = JSON.parse(incomingInput.numTwo)
   
     
-    if(incObject.operator === '+'){
-      incObject.result = number1 + number2
+    if(incomingInput.operator === '+'){
+      incomingInput.result = number1 + number2
     }
-    if(incObject.operator === '-'){
-      incObject.result = number1 - number2
+    if(incomingInput.operator === '-'){
+      incomingInput.result = number1 - number2
     }
-    if(incObject.operator === '*'){
-      incObject.result = number1 * number2
+    if(incomingInput.operator === '*'){
+      incomingInput.result = number1 * number2
     }
-    if(incObject.operator === '/'){
-      incObject.result = number1 / number2
+    if(incomingInput.operator === '/'){
+      incomingInput.result = number1 / number2
     }
    
   };
