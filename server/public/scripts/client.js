@@ -7,8 +7,8 @@ let currentCalculations = {}
 // function for when +-*/ is clicked operatorClicked(event)
 function setOperator(event) {
     event.preventDefault();
-    let myOperator = event.target.textContent
-    currentCalculations.operator = myOperator
+    let myOperator = event.target.textContent //this line of code extracts the text content (+ - * /) that was input
+    currentCalculations.operator = myOperator// this keeps track of teh current state 
     console.log(currentCalculations)
 }
 
@@ -16,13 +16,11 @@ function setOperator(event) {
 // values are stored in the currentCalculations{} object
 function handleGetCalculations(event) {
     event.preventDefault();
-    let firstNumberInput = document.getElementById("firstNumberInput").value 
-    let secondNumberInput = document.getElementById("secondNumberInput").value
-    let operatorInput = document.getElementById("operatorInput").value
-    
+    let firstNumberInput = document.getElementById("firstNumberInput").value
+    let secondNumberInput = document.getElementById("secondNumberInput").value;
+
     currentCalculations.numOne = firstNumberInput
     currentCalculations.numTwo = secondNumberInput
-    //currentCalculations.operator = operatorInput
 
     console.log("inside handleGetCalculations(event)", currentCalculations)
 
@@ -31,15 +29,15 @@ function handleGetCalculations(event) {
         url: '/calculations',
         data: currentCalculations
     })
-        .then((res)=>{
-            console.log("Success");
+        .then((res) => {
+            console.log("Success in handleGetCalculations(event) POST");
             myResults()
             //document.getElementById("calculator").reset();
-        })  
+        })
         .catch((error) => {
             console.log("server error:", error)
         })
-        
+
 
 
 }
@@ -60,15 +58,15 @@ function myResults() {
             let resultHistory = document.getElementById("resultHistory");
             resultHistory.innerHTML = ''
             for (let items of responseInfo) {
-                resultHistory.innerHTML += `<div> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</div>`
+                resultHistory.innerHTML += `<h2>History:<li> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</li></h2>`
             }
             //recentResult
             let recentResult = document.getElementById('recentResult');
-            recentResult.innerHTML = `<h2> Result:</h2> <p> ${myResults}</p>`;
+            recentResult.innerHTML = `<h2>Result:</h2><p> ${myResults}</p>`;
         })
         .catch((error) => {
-    console.log("server error", error);
-})
+            console.log("server error", error);
+        })
 
 }
 
