@@ -27,29 +27,28 @@ app.post('/calculations', (req, res) => {
   calculationsResult(req.body);
   calculations.push(req.body)
   res.sendStatus(201);
+});
 
   function calculationsResult(incObject){
     console.log(incObject)
     let number1 = JSON.parse(incObject.numOne)
     let number2 = JSON.parse(incObject.numTwo)
+  
     
-    switch (myOperator) {
-    case '+':
-      result = number1 + number2
-      break;
-    case '-':
-      calculations = number1 - number2
-      break;
-    case '*':
-      calculations = number1 * number2
-      break;
-    case '/':
-      calculations = number1 / number2;
-      break;
-    default:
-      calculations = 'Invalid Operator';
-  }
-}});
+    if(incObject.operator === '+'){
+      incObject.result = number1 + number2
+    }
+    if(incObject.operator === '-'){
+      incObject.result = number1 - number2
+    }
+    if(incObject.operator === '*'){
+      incObject.result = number1 * number2
+    }
+    if(incObject.operator === '/'){
+      incObject.result = number1 / number2
+    }
+   
+  };
 
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:

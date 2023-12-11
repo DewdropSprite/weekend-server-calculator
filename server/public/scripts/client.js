@@ -1,13 +1,54 @@
 console.log('client.js is sourced!');
 
 myResults();
-let currenCalculations = {}
+let currentCalculations = {}
 
 
-function myResults() {
+// function for when +-*/ is clicked operatorClicked(event)
+function setOperator(event) {
+    event.preventdefault();
+    let myOperator = event.target.textContent
+    currentCalculations.operator = myOperator
+    console.log(currentCalculations)
+}
+
+// event for when = button is clicked calculateValue(event)
+// values are stored in the currentCalculations{} object
+function handleGetCalculations(event) {
+    event.preventdefault();
+    let firstNumberInput = document.getElementById("firstNumberInput").value 
+    let secondNumberInput = document.getElementById("secondNumberInput").value
+    let operatorInput = document.getElementsByClassName("operatorInput")
+    
+    currentCalculations.numOne = firstNumberInput
+    currentCalculations.numTwo = secondNumberInput
+    currentCalculations.operator = operatorInput
+
+    console.log("inside handleGetCalculations(event)", currentCalculations)
+
     axios({
-        method: 'GET',
-        url: "/calculations"
+        method: "POST",
+        url: "/calculations",
+        data: currentCalculations
+    })
+        .then((res)=>{
+            console.log("Success");
+            myResults()
+        })  
+        .catch((error) => {
+            console.log("server error:", error)
+        })
+        document.getElementById("calculator").reset()
+
+
+}
+
+//function to display the result
+function myResults() {
+
+    axios({
+        method: "GET",
+        url: "/calculations",
     })
         .then((response) => {
             console.log('inside GET response', response.data)
@@ -32,49 +73,8 @@ function myResults() {
 
 
 
-// event for when = button is clicked
-// values are stored in the currentCalculations{} object
-function handleGetCalculations(event) {
-    event.preventdefault();
-    let num1 = document.getElementById(firstNumberInput).value
-    let num2 = document.getElementById(secondNumberInput).value
-    currentCalculations.numOne = num1
-    currentCalculations.numTwo = num2
-    console.log("inside handleGetCalculations(event)", currentCalculations)
-
-    axios({
-        method: 'POST',
-        url: '/calculations',
-        data: currenCalculations
-    })
-        .then((response) => {
-            console.log("Success");
-            myResults()
-        })  
-        .catch((error) => {
-            console.log("server error:", error)
-        })
-        document.getElementById("calculator").reset()
-
-
-}
-
-
-function setOperator(event) {
-    event.preventdefault();
-    let myOperator = event.target.textContent
-    currenCalculations.operator = myOperator
-    console.log(currenCalculations)
-}
-
-
-//There should be a 'C' button that will clear the inputs.
-//<button onclick = "clearInputs(event)">C</button>
+//function for when C button is clicked
 function clearInputs(event) {
     event.preventdefault();
-    numOne = '';
-    numTwo = '';
-    operator = '';
-    document.getElementById('numOneInput').value = '';
-    document.getElementById('numTwoInput').value = '';
+    document.getElementById("calculator").reset()
 }

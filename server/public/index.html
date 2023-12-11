@@ -1,36 +1,41 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <title>Server-Side Calculator</title>    
-    <script defer src="scripts/axios.js"></script>
-    <script defer src="scripts/client.js" charset="utf-8"></script>
-  </head>
-  <body>
-    <h1>Server-Side Calculator</h1>
-    <!--Inside <form data-testid="calculator">:
+
+<head>
+  <meta charset="utf-8">
+  <title>Server-Side Calculator</title>
+  <script defer src="scripts/axios.js"></script>
+  <script defer src="scripts/client.js" charset="utf-8"></script>
+</head>
+
+<body>
+  <h1>Server-Side Calculator</h1>
+  <!--Inside <form data-testid="calculator">:
         Create a user interface where the user can input two values and select a mathematical operator.-->
-    <form data-testid="calculator">
-      <input id= firstNumberInput type="number" name = "firstNumberInput" placeholder = "First Number" />
-      <button onclick = "setOperator(event)">+</button>
-      <button onclick = "setOperator(event)">-</button>
-      <button onclick = "setOperator(event)">*</button>
-      <button onclick = "setOperator(event)">/</button>
-      <input id= "secondNumberInput" type = "number" name = "secondNumberInput" placeholder="Second Number"/>
-      <button onclick = "handleGetCalculations(event)">=</button>
-      <button onclick = "clearInputs(event)">C</button>
-    </form>
+  <form data-testid="calculator">
+    <input id=firstNumberInput type="number" name="firstNumberInput" placeholder="First Number" />
+    <div class id="operatorInput">
+      <button classid="additionButton" onclick="setOperator(event)">+</button>
+      <button id="subtractButton" onclick="setOperator(event)">-</button>
+      <button id="multiplyButton" onclick="setOperator(event)">*</button>
+      <button id="divideButton" onclick="setOperator(event)">/</button>
+    </div>
+    <input id="secondNumberInput" type="number" name="secondNumberInput" placeholder="Second Number" />
+    <button id="equalsButton" onclick="handleGetCalculations(event)">=</button>
+    <button id="clearButton" onclick="clearInputs(event)">C</button>
+  </form>
 
-    <section id = "recentResult" data-testid="recentResult">
-      <!-- The most recent calculation result goes here. -->
-      <h2>Result:</h2>
-      <div id ="result"></div>
-    </section>
+  <section id="recentResult" data-testid="recentResult">
+    <!-- The most recent calculation result goes here. -->
+    <h2>Result:</h2>
+    <div id="result"></div>
+  </section>
 
-    <section id = "resultHistory" data-testid="resultHistory">
-      <!-- The list of calculation results goes here. -->
-      <h2>History:</h2>
-      <div id="history"></div>
-    </section>
-  </body>
+  <section id="resultHistory" data-testid="resultHistory">
+    <!-- The list of calculation results goes here. -->
+    <h2>History:</h2>
+    <div id="history"></div>
+  </section>
+</body>
+
 </html>
