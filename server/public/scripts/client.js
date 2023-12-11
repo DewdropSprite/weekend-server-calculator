@@ -6,7 +6,7 @@ let currentCalculations = {}
 
 // function for when +-*/ is clicked operatorClicked(event)
 function setOperator(event) {
-    event.preventdefault();
+    event.preventDefault();
     let myOperator = event.target.textContent
     currentCalculations.operator = myOperator
     console.log(currentCalculations)
@@ -15,30 +15,31 @@ function setOperator(event) {
 // event for when = button is clicked calculateValue(event)
 // values are stored in the currentCalculations{} object
 function handleGetCalculations(event) {
-    event.preventdefault();
+    event.preventDefault();
     let firstNumberInput = document.getElementById("firstNumberInput").value 
     let secondNumberInput = document.getElementById("secondNumberInput").value
-    let operatorInput = document.getElementsByClassName("operatorInput")
+    let operatorInput = document.getElementById("operatorInput").value
     
     currentCalculations.numOne = firstNumberInput
     currentCalculations.numTwo = secondNumberInput
-    currentCalculations.operator = operatorInput
+    //currentCalculations.operator = operatorInput
 
     console.log("inside handleGetCalculations(event)", currentCalculations)
 
     axios({
-        method: "POST",
-        url: "/calculations",
+        method: 'POST',
+        url: '/calculations',
         data: currentCalculations
     })
         .then((res)=>{
             console.log("Success");
             myResults()
+            //document.getElementById("calculator").reset();
         })  
         .catch((error) => {
             console.log("server error:", error)
         })
-        document.getElementById("calculator").reset()
+        
 
 
 }
@@ -53,17 +54,17 @@ function myResults() {
         .then((response) => {
             console.log('inside GET response', response.data)
 
-            let responseData = response.data;
+            let responseInfo = response.data;
             //resultHistory
-            let newestResult = responseData[responseData.length - 1];
+            let myResults = responseInfo[responseInfo.length - 1];
             let resultHistory = document.getElementById("resultHistory");
             resultHistory.innerHTML = ''
-            for (let items of responseData) {
+            for (let items of responseInfo) {
                 resultHistory.innerHTML += `<div> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</div>`
             }
             //recentResult
             let recentResult = document.getElementById('recentResult');
-            recentResult.innerHTML = `<h2> Result: ${newestResult.result}</h2>`
+            recentResult.innerHTML = `<h2> Result:</h2> <p> ${myResults}</p>`;
         })
         .catch((error) => {
     console.log("server error", error);
@@ -75,6 +76,11 @@ function myResults() {
 
 //function for when C button is clicked
 function clearInputs(event) {
-    event.preventdefault();
-    document.getElementById("calculator").reset()
+    event.preventDefault()
+    numOne = '';
+    numTwo = '';
+    operator = '';
+
+    document.getElementById("firstNumberInput").value = '';
+    document.getElementById("secondNumberInput").value = '';
 }

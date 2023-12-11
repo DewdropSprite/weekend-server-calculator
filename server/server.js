@@ -23,11 +23,10 @@ app.get('/calculations', (req, res) => {
 
 // POST /calculations
 app.post('/calculations', (req, res) => {
-  console.log("req body", req.body);
+  //console.log("req body", req.body);
   calculationsResult(req.body);
   calculations.push(req.body)
   res.sendStatus(201);
-});
 
   function calculationsResult(incObject){
     console.log(incObject)
@@ -49,6 +48,7 @@ app.post('/calculations', (req, res) => {
     }
    
   };
+});
 
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
