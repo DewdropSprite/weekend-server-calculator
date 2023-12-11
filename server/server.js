@@ -1,9 +1,12 @@
 const express = require('express');
+const bodyParser = require('body-parser');
 const app = express();
-let PORT = process.env.PORT || 5000;
+let PORT = process.env.PORT || 5001;
 
 app.use(express.json());
 app.use(express.static('server/public'));
+app.use(bodyParser.urlencoded({extended:true}))
+app.use(bodyParser.json())
 
 // Global variable that will contain all of the
 // calculation objects:
@@ -13,8 +16,39 @@ let calculations = []
 // Here's a wonderful place to make some routes:
 
 // GET /calculations
+app.get('/calculations', (req, res) => {
+  console.log("in app.get on server", calculations)
+  res.send(calculations)
+})
 
 // POST /calculations
+app.post('/calculations', (req, res) => {
+  console.log("req body", req.body);
+  calculationsResult(req.body);
+  calculations.push(req.body)
+  res.sendStatus(201);
+});
+
+  function calculationsResult(incObject){
+    console.log(incObject)
+    let number1 = JSON.parse(incObject.numOne)
+    let number2 = JSON.parse(incObject.numTwo)
+  
+    
+    if(incObject.operator === '+'){
+      incObject.result = number1 + number2
+    }
+    if(incObject.operator === '-'){
+      incObject.result = number1 - number2
+    }
+    if(incObject.operator === '*'){
+      incObject.result = number1 * number2
+    }
+    if(incObject.operator === '/'){
+      incObject.result = number1 / number2
+    }
+   
+  };
 
 
 // PLEASE DO NOT MODIFY ANY CODE BELOW THESE BEARS:
