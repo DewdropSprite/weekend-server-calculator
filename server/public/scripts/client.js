@@ -62,7 +62,7 @@ function myResults() {
             let recentResult = document.getElementById('recentResult');
             recentResult.innerHTML = '';
             for(let items of responseInfo){
-                recentResult.innerHTML = `<h2><p>${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</p></h2>`;
+                recentResult.innerHTML = `<p>${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</p>`;
             }
             console.log("recentResult:", recentResult)
             
@@ -71,7 +71,7 @@ function myResults() {
             let resultHistory = document.getElementById("resultHistory");
            resultHistory.innerHTML = ''
             for (let items of responseInfo) {
-                resultHistory.innerHTML += `<h2><li> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</li></h2>`
+                resultHistory.innerHTML += `<li> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</li>`
             }
             console.log("resultHistory:", resultHistory)
             
