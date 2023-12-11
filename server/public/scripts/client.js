@@ -49,20 +49,32 @@ function myResults() {
         method: "GET",
         url: "/calculations",
     })
-        .then((response) => {
+        .then((response) => { //.then is a "promise handler" that executes when GET request is successful
             console.log('inside GET response', response.data)
 
-            let responseInfo = response.data;
-            //resultHistory
+            let responseInfo = response.data;//response data is stored in variable responseInfo
+            console.log("responseInfo:", responseInfo)
             let myResults = responseInfo[responseInfo.length - 1];
-            let resultHistory = document.getElementById("resultHistory");
-            resultHistory.innerHTML = ''
-            for (let items of responseInfo) {
-                resultHistory.innerHTML += `<h2>History:<li> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</li></h2>`
-            }
+            console.log("myResults:", myResults)
+
+
             //recentResult
             let recentResult = document.getElementById('recentResult');
-            recentResult.innerHTML = `<h2>Result:</h2><p> ${myResults}</p>`;
+            recentResult.innerHTML = '';
+            for(let items of responseInfo){
+                recentResult.innerHTML = `<h2><p>${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</p></h2>`;
+            }
+            console.log("recentResult:", recentResult)
+            
+            
+             //resultHistory
+            let resultHistory = document.getElementById("resultHistory");
+           resultHistory.innerHTML = ''
+            for (let items of responseInfo) {
+                resultHistory.innerHTML += `<h2><li> ${items.numOne} ${items.operator} ${items.numTwo} = ${items.result}</li></h2>`
+            }
+            console.log("resultHistory:", resultHistory)
+            
         })
         .catch((error) => {
             console.log("server error", error);
