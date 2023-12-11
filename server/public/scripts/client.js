@@ -4,7 +4,7 @@ myResults();
 let currentCalculations = {}
 
 
-// function for when +-*/ is clicked operatorClicked(event)
+// function for when an operator ( +-*/ ) is clicked
 function setOperator(event) {
     event.preventDefault();
     let myOperator = event.target.textContent //this line of code extracts the text content (+ - * /) that was input
@@ -12,7 +12,7 @@ function setOperator(event) {
     console.log(currentCalculations)
 }
 
-// event for when = button is clicked calculateValue(event)
+// event for when = button is clicked
 // values are stored in the currentCalculations{} object
 function handleGetCalculations(event) {
     event.preventDefault();
@@ -32,7 +32,7 @@ function handleGetCalculations(event) {
         .then((res) => {
             console.log("Success in handleGetCalculations(event) POST");
             myResults()
-            //document.getElementById("calculator").reset();
+            //document.getElementById("calculator").reset(); i don't think this works
         })
         .catch((error) => {
             console.log("server error:", error)
